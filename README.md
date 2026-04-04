@@ -4,9 +4,9 @@ A prediction market contract built on GenLayer that can resolve any YES/NO quest
 
 ## What is this?
 
-Most prediction markets need a trusted third party to resolve outcomes — someone has to say "yes this happened" or "no it didn't". This contract removes that middleman entirely. It fetches the source data itself and uses an LLM to read it and decide, with multiple validators having to agree through Optimistic Democracy.
+Most prediction markets need a trusted third party to resolve outcomes  someone has to say "yes this happened" or "no it didn't". This contract removes that middleman entirely. It fetches the source data itself and uses an LLM to read it and decide, with multiple validators having to agree through Optimistic Democracy.
 
-The "universal" part means it works for any topic — sports, politics, crypto, news, anything you can point to a URL for.
+The "universal" part means it works for any topic  sports, politics, crypto, news, anything you can point to a URL for.
 
 ## How it works
 
@@ -14,7 +14,7 @@ The "universal" part means it works for any topic — sports, politics, crypto, 
 2. Call `resolve()` when you think the event has happened
 3. The contract fetches the URL and passes the content to an LLM
 4. The LLM returns `occurred: 1` (YES) or `occurred: 0` (NO)
-5. Multiple validators independently do the same — if they agree, it's finalized
+5. Multiple validators independently do the same if they agree, it's finalized
 
 ## Example
 
@@ -36,9 +36,9 @@ Result: YES — occurred: 1
 
 ## Functions
 
-- `resolve()` — fetch web data and resolve the market
-- `get_outcome()` — see the current result
-- `is_resolved()` — check if already resolved
+- `resolve()`  fetch web data and resolve the market
+- `get_outcome()`  see the current result
+- `is_resolved()`  check if already resolved
 
 ## How to run it
 
@@ -50,4 +50,4 @@ Result: YES — occurred: 1
 
 ## Notes
 
-This was the first Intelligent Contract I built for the GenLayer Hackathon. It uses `gl.eq_principle.strict_eq` which means all validators must return the exact same JSON — works well here since the outcome is binary (0 or 1).
+This was the first Intelligent Contract I built for the GenLayer Hackathon. It uses `gl.eq_principle.strict_eq` which means all validators must return the exact same JSON , works well here since the outcome is binary (0 or 1).
