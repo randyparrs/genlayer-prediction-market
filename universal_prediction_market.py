@@ -1,13 +1,12 @@
 # { "Depends": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6" }
 
-from genlayer import *
-
 import json
-import typing
+from genlayer import *
 
 
 class UniversalPredictionMarket(gl.Contract):
     has_resolved: bool
+    outcome: u256
     question: str
     category: str
     resolution_url: str
@@ -15,21 +14,20 @@ class UniversalPredictionMarket(gl.Contract):
 
     def __init__(self, question: str, category: str, resolution_url: str, deadline: str):
         self.has_resolved = False
+        self.outcome = u256(0)
         self.question = question
         self.category = category
         self.resolution_url = resolution_url
         self.deadline = deadline
 
     @gl.public.write
-    def resolve(self) -> typing.Any:
-
+    def resolve(self) -> str:
         if self.has_resolved:
             return "Already resolved"
 
         def nondet() -> str:
             response = gl.nondet.web.get(self.resolution_url)
             web_data = response.body.decode("utf-8")
-            print(web_data)
 
             task = f"""In the following web page, find information to answer this prediction market question:
             Question: {self.question}
@@ -52,24 +50,25 @@ class UniversalPredictionMarket(gl.Contract):
             This result should be perfectly parsable by a JSON parser without errors.
             """
             result = gl.nondet.exec_prompt(task).replace("```json", "").replace("```", "")
-            print(result)
             return json.dumps(json.loads(result), sort_keys=True)
 
         result_json = json.loads(gl.eq_principle.strict_eq(nondet))
 
         self.has_resolved = True
-        self.outcome = result_json["occurred"]
+        self.outcome = u256(result_json["occurred"])
 
-        return result_json
+        return json.dumps(result_json)
 
     @gl.public.view
     def get_outcome(self) -> str:
         if not self.has_resolved:
-            return "Pending — Call resolve() to determine the outcome."
-        if self.outcome == 1:
-            return "YES — The event has occurred."
-        return "NO — The event has not occurred yet."
+            return "Pending. Call resolve() to determine the outcome."
+        if int(self.outcome) == 1:
+            return "YES. The event has occurred."
+        return "NO. The event has not occurred yet."
 
     @gl.public.view
     def is_resolved(self) -> bool:
         return self.has_resolved
+
+       
