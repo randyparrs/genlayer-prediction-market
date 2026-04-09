@@ -48,6 +48,4 @@ Result: YES — occurred: 1
 4. Deploy with your question, category, resolution URL and deadline
 5. Call `resolve()` to trigger the AI resolution
 
-## Notes
 
-This was the first Intelligent Contract I built for the GenLayer Hackathon. It uses `gl.eq_principle.strict_eq` which means all validators must return the exact same JSON , works well here since the outcome is binary (0 or 1).
