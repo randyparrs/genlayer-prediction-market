@@ -48,4 +48,6 @@ Result: YES — occurred: 1
 4. Deploy with your question, category, resolution URL and deadline
 5. Call `resolve()` to trigger the AI resolution
 
+Note: the contract in this repository uses the Address type in the constructor as required by genvm-lint. When deploying in GenLayer Studio use a version that receives str in the constructor and converts internally with Address(owner_address) since Studio requires primitive types to parse the contract schema correctly.
+
 
